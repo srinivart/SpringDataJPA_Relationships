@@ -1,0 +1,184 @@
+
+
+
+====>
+POST
+
+====>
+
+http://localhost:8098/students
+
+{
+    "name": "srini"
+}
+
+
+
+
+{
+    "id": 1,
+    "name": "srini"
+}
+
+
+
+
+
+
+http://localhost:8098/subjects
+
+{
+    "id": 1,
+    "name": "Maths",
+    "enrolledStudents": [],
+    "teacher": null
+}
+
+
+
+http://localhost:8098/subjects
+
+
+
+
+
+
+
+
+
+http://localhost:8098/teachers
+
+{
+    "name": "teju"
+}
+
+
+{
+    "id": 1,
+    "name": "teju"
+}
+
+
+
+
+===>
+PUT
+==>
+
+
+
+
+
+
+
+@PutMapping("/{subjectId}/students/{studentId}")
+
+
+http://localhost:8098/subjects/1/students/1
+
+
+
+{
+    "id": 1,
+    "name": "Maths",
+    "enrolledStudents": [
+        {
+            "id": 1,
+            "name": "srini"
+        }
+    ],
+    "teacher": null
+}
+
+
+
+
+
+@PutMapping("/{subjectId}/teacher/{teacherId}")
+
+
+http://localhost:8098/subjects/1/teacher/1
+
+
+
+{
+    "id": 1,
+    "name": "Maths",
+    "enrolledStudents": [
+        {
+            "id": 1,
+            "name": "srini"
+        }
+    ],
+    "teacher": {
+        "id": 1,
+        "name": "teju"
+    }
+}
+
+
+
+
+---->
+
+
+
+
+==>
+GET
+
+==>
+
+
+http://localhost:8098/subjects
+
+
+[
+    {
+        "id": 1,
+        "name": "Maths",
+        "enrolledStudents": [
+            {
+                "id": 1,
+                "name": "srini"
+            }
+        ],
+        "teacher": {
+            "id": 1,
+            "name": "teju"
+        }
+    }
+]
+
+
+
+=====>
+
+
+
+
+
+http://localhost:8098/console/
+
+
+SELECT * FROM STUDENT;
+ID  	NAME
+1	srini
+
+
+
+SELECT * FROM STUDENT_ENROLLED;
+SUBJECT_ID  	STUDENT_ID
+1	1
+
+
+
+
+
+SELECT * FROM SUBJECT;
+ID  	NAME  	TEACHER_ID
+1	Maths	1
+
+
+
+

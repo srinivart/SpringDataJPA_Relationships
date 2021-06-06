@@ -1,0 +1,157 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Library",
+		"_postman_id": "0c25b979-a68c-a683-7c25-a67c9a686d99",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Person",
+			"request": {
+				"url": "http://localhost:8090/persons/saveAll",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n    \"name\": \"srini\",\n    \"location\": \"india\"\n     },\n     {\n    \"name\": \"teju\",\n    \"location\": \"mumbai\"\n     }\n  ]\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get Persons",
+			"request": {
+				"url": "http://localhost:8090/persons",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create books",
+			"request": {
+				"url": "http://localhost:8090/books",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"bname\": \"abc\",\n    \"author\": \"author1\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get books",
+			"request": {
+				"url": "http://localhost:8090/books",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "save all books",
+			"request": {
+				"url": "http://localhost:8090/books/saveAll",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n{\n\"bname\": \"abc\",\n\"author\": \"author1\"\n},\n{\n\"bname\": \"xyz\",\n\"author\": \"author2\"\n}\n]"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "save all persons",
+			"request": {
+				"url": "http://localhost:8090/persons/saveAll",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n    \"name\": \"srini\",\n    \"location\": \"india\"\n     },\n     {\n    \"name\": \"teju\",\n    \"location\": \"mumbai\"\n     }\n  ]\n"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "assign books",
+			"request": {
+				"url": "http://localhost:8090/books/assign/2/1",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8090/books/assign/xyz/srini",
+			"request": {
+				"url": "http://localhost:8090/books/assign/xyz/srini",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8090/books/assign/2/2",
+			"request": {
+				"url": "http://localhost:8090/books/assign/2/2",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "assign books",
+			"request": {
+				"url": "http://localhost:8090/books/assign/1/1",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

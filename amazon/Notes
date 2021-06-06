@@ -1,0 +1,243 @@
+
+------>
+POST
+------>
+
+http://localhost:8089/customers
+
+
+
+{
+"name": "srini",
+"email": "gmail"
+}
+
+
+
+
+
+------>
+GET
+------>
+
+http://localhost:8089/customers
+
+
+[
+    {
+        "name": "srini",
+        "email": "gmail"
+    }
+]
+
+
+
+------>
+POST
+------>
+
+
+http://localhost:8089/products
+
+
+{
+	"pname":"mobile",
+	"price":10000
+}
+
+
+
+------>
+GET
+------>
+
+
+[
+    {
+        "pname": "mobile",
+        "price": 10000
+    }
+]
+
+
+
+
+
+
+
+SELECT * FROM CUSTOMER
+
+
+SELECT * FROM CUSTOMER;
+NAME  	EMAIL
+srini	gmail
+
+
+
+SELECT * FROM PRODUCT
+
+SELECT * FROM PRODUCT;
+PNAME  	PRICE  	CUST_NAME
+mobile	10000	null
+
+
+
+
+
+
+
+
+------>
+PUT
+-------->
+
+
+http://localhost:8089/products/mobile/customer/srini
+
+
+{
+    "pname": "mobile",
+    "price": 10000
+}
+
+
+
+
+
+
+
+---------->
+Console
+---------->
+
+
+http://localhost:8089/h2-console/
+
+
+
+
+
+
+SELECT * FROM CUSTOMER
+
+SELECT * FROM CUSTOMER;
+NAME  	EMAIL
+srini	gmail
+
+
+
+
+
+SELECT * FROM PRODUCT
+
+SELECT * FROM PRODUCT;
+PNAME  	PRICE  	CUST_NAME
+mobile	10000	srini
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+http://localhost:8089/customers
+
+
+Errors
+-----
+
+[
+{
+"name": "sahi",
+"email": "gmail"
+},
+{
+"name": "teju",
+"email": "gmail"
+}
+]
+
+
+{
+    "timestamp": "2021-06-06T11:47:19.381+00:00",
+    "status": 400,
+    "error": "Bad Request",
+    "path": "/customers"
+}
+
+
+
+
+
+
+
+
+
+Because there is already post method exist
+---------->
+
+
+http://localhost:8089/customers/saveAll
+---------->
+
+
+[
+    {
+        "name": "sahi",
+        "email": "gmail"
+    },
+    {
+        "name": "teju",
+        "email": "gmail"
+    }
+]
+
+
+
+------->
+
+
+
+
+
+http://localhost:8089/products/saveAll
+
+
+
+
+[
+    {
+        "pname": "tv",
+        "price": 25000
+    },
+    {
+        "pname": "Camera",
+        "price": 35000
+    }
+]
+
+
+
+
+
+
+
+
+
+
+---->
+
+
+
+

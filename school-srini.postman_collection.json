@@ -1,0 +1,104 @@
+{
+	"variables": [],
+	"info": {
+		"name": "school-srini",
+		"_postman_id": "0dcfd523-614f-0785-ed27-509233b41eab",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create student",
+			"request": {
+				"url": "http://localhost:8098/students",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"srini\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create subject",
+			"request": {
+				"url": "http://localhost:8098/subjects",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\" : \"Maths\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create teacher",
+			"request": {
+				"url": "http://localhost:8098/teachers",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"teju\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "assign student subject",
+			"request": {
+				"url": "http://localhost:8098/subjects/1/students/1",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "assign subject teacher",
+			"request": {
+				"url": "http://localhost:8098/subjects/1/teacher/1",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get subjects",
+			"request": {
+				"url": "http://localhost:8098/subjects",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

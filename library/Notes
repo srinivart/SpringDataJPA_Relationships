@@ -1,0 +1,954 @@
+http://localhost:8090/h2-console
+
+
+
+Tables created
+---------
+
+
+BOOKS
+PERSON
+READ_BY
+
+
+
+SELECT * FROM BOOKS;
+BNAME  	AUTHOR
+
+
+
+
+SELECT * FROM PERSON;
+NAME  	LOCATION
+
+
+
+SELECT * FROM READ_BY;
+NAME  	BNAME
+
+@JoinTable(name ="read_by",
+            joinColumns = @JoinColumn(name = "name"),
+            inverseJoinColumns = @JoinColumn(name = "bname")
+
+
+
+--or
+
+SELECT * FROM READ_BY;
+BNAME  	NAME
+
+@JoinTable(name ="read_by",
+            joinColumns = @JoinColumn(name = "bname"),
+            inverseJoinColumns = @JoinColumn(name = "name")
+
+
+
+
+------>
+
+POST
+
+------->
+
+
+http://localhost:8090/persons
+
+
+{
+    "name": "srini",
+    "location": "india"
+}
+
+
+
+{
+    "name": "srini",
+    "location": "india"
+}
+
+
+
+
+
+
+
+
+----->
+
+GET
+
+----->
+
+http://localhost:8090/persons
+
+
+
+[
+    {
+        "name": "srini",
+        "location": "india"
+    }
+]
+
+
+
+
+
+
+
+
+
+------>
+
+POST
+
+------->
+
+http://localhost:8090/books
+
+
+
+{
+    "bname": "Anna Karenina ",
+    "author": "Leo Tolstoy"
+}
+
+
+
+
+
+
+
+
+
+Error while creating
+-----
+
+{
+    "bname" : "Anna Karenina",
+    "author" : "Leo Tolstoy"
+}
+
+
+
+Response
+-------
+
+{
+    "timestamp": "2021-06-06T13:29:34.947+00:00",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/books"
+}
+
+
+
+---->
+log
+--->
+
+org.hibernate.id.IdentifierGenerationException:
+ids for this class must be manually assigned before calling save(): com.srinivart.books.Books
+
+
+
+
+
+org.hibernate.id.IdentifierGenerationException: ids for this class must be manually assigned before calling save(): com.srinivart.books.Books
+
+
+
+
+
+Error
+----->
+
+http://localhost:8090/books/saveAll
+
+
+
+[
+{
+"bname": "abc",
+"author": "author1"
+},
+{
+"bname": "xyz",
+"author": "author2"
+}
+]
+
+
+--->
+
+org.hibernate.id.IdentifierGenerationException: ids for this class must be manually assigned before calling save(): com.srinivart.books.Books
+
+
+
+
+
+
+
+
+
+Fix for the above issue --< but  not working
+---------------->
+
+@JoinTable(name ="read_by",
+            joinColumns = @JoinColumn(name = "person_name"),
+            inverseJoinColumns = @JoinColumn(name = "books_bname")
+      )
+
+
+------>
+
+
+
+
+
+
+
+
+http://localhost:8090/books
+
+
+
+
+Response
+-----
+{
+    "timestamp": "2021-06-06T13:59:03.571+00:00",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/books"
+}
+
+
+
+---->
+
+-->null
+2021-06-06 19:25:00.934 ERROR 3901 --- [nio-8090-exec-2] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.orm.jpa.JpaSystemException: ids for this class must be manually assigned before calling save(): com.srinivart.books.Books; nested exception is org.hibernate.id.IdentifierGenerationException: ids for this class must be manually assigned before calling save(): com.srinivart.books.Books] with root cause
+
+org.hibernate.id.IdentifierGenerationException: ids for this class must be manually assigned before calling save(): com.srinivart.books.Books
+	at org.hibernate.id.Assigned.generate(Assigned.java:33) ~[hibernate-core-5.4.31.Final.jar:5.4.31.Final]
+
+
+
+
+
+
+
+
+Resources
+------
+For hibernate it is important to know that your object WILL have an id, when you want to persist/save it. Thus, make sure that
+
+    private String U_id;
+
+
+   will have a value, by the time you are going to persist your object. You can do that with the @GeneratedValue annotation or by assigning a value manually.
+
+In the case you need or want to assign your id's manually (and that's what the above error is
+
+
+
+
+
+
+
+
+
+
+Solution  ---> added this in both classes
+-----
+
+@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Now the issue solved
+-----------
+
+
+----->
+POST
+----->
+
+http://localhost:8090/books
+
+
+
+{
+    "bname": "abc",
+    "author": "author1"
+}
+
+
+----------->
+
+
+
+
+
+
+
+{
+    "author": "author1",
+    "readByPersons": [],
+    "bookName": null
+}
+
+
+---->
+
+
+
+
+
+
+
+
+Tables
+
+----
+
+SELECT * FROM BOOKS;
+ID  	AUTHOR  	BNAME
+1	author1	null
+
+
+
+
+
+SELECT * FROM PERSON;
+ID  	LOCATION  	NAME
+
+
+
+
+SELECT * FROM READ_BY;
+PERSON_ID  	BOOKS_ID
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+http://localhost:8090/books/saveAll
+
+
+Body
+----
+
+[
+{
+"bname": "abc",
+"author": "author1"
+},
+{
+"bname": "xyz",
+"author": "author2"
+}
+]
+
+
+
+
+
+Response
+-----
+
+[
+    {
+        "author": "author1",
+        "readByPersons": [],
+        "bookName": null
+    },
+    {
+        "author": "author2",
+        "readByPersons": [],
+        "bookName": null
+    }
+]
+
+
+
+
+------------->
+
+
+
+http://localhost:8090/books
+
+{
+    "bname": "abc",
+    "author": "author1"
+}
+
+
+
+
+--->
+
+
+
+
+------------->
+Now the book Name = null value got fixed
+------------->
+
+created getters and setters with the latest fields
+
+
+
+String getBname()
+
+void setBname(String bname)
+
+
+
+
+
+
+
+
+
+http://localhost:8090/books
+
+{
+    "bname": "abc",
+    "author": "author1",
+    "readByPersons": []
+}
+
+
+
+
+
+
+[
+    {
+        "bname": "abc",
+        "author": "author1",
+        "readByPersons": []
+    },
+    {
+        "bname": "xyz",
+        "author": "author2",
+        "readByPersons": []
+    }
+]
+
+
+
+
+
+
+---->
+GET
+--->
+http://localhost:8090/books
+
+
+
+
+[
+    {
+        "bname": "abc",
+        "author": "author1",
+        "readByPersons": []
+    },
+    {
+        "bname": "abc",
+        "author": "author1",
+        "readByPersons": []
+    },
+    {
+        "bname": "xyz",
+        "author": "author2",
+        "readByPersons": []
+    }
+]
+
+
+
+---->
+GET
+--->
+
+
+
+
+
+
+
+---->
+POST
+---->
+
+http://localhost:8090/persons            ---> this should be    /persons/saveAll
+
+
+[
+	{
+    "name": "srini",
+    "location": "india"
+     },
+   {
+    "name": "sahi",
+    "location": "us"
+   }
+]
+
+
+2021-06-06 19:51:08.317  WARN 4003 --- [nio-8090-exec-2] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `com.srinivart.person.Person` from Array value (token `JsonToken.START_ARRAY`); nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException: Cannot deserialize value of type `com.srinivart.person.Person` from Array value (token `JsonToken.START_ARRAY`)
+ at [Source: (PushbackInputStream); line: 1, column: 1]]
+
+
+
+
+
+
+
+ --->
+
+ working with one entry
+
+ --->
+
+ {
+    "name": "srini",
+    "location": "india"
+}
+
+
+
+
+
+
+--->
+
+in above entry point is wrong...
+
+
+
+
+
+
+
+
+
+ ----->
+
+
+
+ http://localhost:8090/persons/saveAll
+
+
+
+ [
+    {
+    "name": "srini",
+    "location": "india"
+     },
+     {
+    "name": "teju",
+    "location": "mumbai"
+     }
+  ]
+
+
+
+------->
+
+
+
+
+
+
+SELECT * FROM BOOKS;
+
+ID  	AUTHOR  	BNAME
+1	author1	      abc
+2	author1	      abc
+3	author2	      xyz
+
+
+
+SELECT * FROM PERSON;
+
+ID  	LOCATION  	NAME
+1	      us	  sahi
+2	    india	  srini
+3	    india	 srini
+4	   mumbai	 teju
+
+
+
+
+
+
+SELECT * FROM READ_BY;
+PERSON_ID  	BOOKS_ID
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--->
+
+PUT
+---->
+
+
+
+
+
+("/{bName}/assign/{pName}")
+
+
+
+
+
+http://localhost:8090/books/xyz/srini
+
+
+
+
+{
+    "timestamp": "2021-06-06T14:31:51.378+00:00",
+    "status": 404,
+    "error": "Not Found",
+    "path": "/books/xyz/srini"
+}
+
+
+
+
+
+
+console
+------
+2021-06-06 19:51:08.317  WARN 4003 --- [nio-8090-exec-2] .w.s.m.s.DefaultHandlerExceptionResolver :
+Resolved [org.springframework.http.converter.HttpMessageNotReadableException:
+JSON parse error: Cannot deserialize value of type `com.srinivart.person.Person` from Array value
+(token `JsonToken.START_ARRAY`); nested exception is com.fasterxml.jackson.databind.exc.MismatchedInputException:
+Cannot deserialize value of type `com.srinivart.person.Person` from Array value (token `JsonToken.START_ARRAY`)
+ at [Source: (PushbackInputStream); line: 1, column: 1]]
+
+
+
+
+
+
+
+
+ SELECT * FROM BOOKS;
+ID  	AUTHOR  	BNAME
+1	   author1	        abc
+2	    author2	       xyz
+
+
+SELECT * FROM PERSON;
+ID  	LOCATION  	NAME
+1	   india	      srini
+2	   mumbai	       teju
+
+
+
+
+
+
+http://localhost:8090/books/xyz/assign/srini
+
+
+
+
+{
+    "timestamp": "2021-06-06T14:38:48.075+00:00",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/books/xyz/assign/srini"
+}
+
+
+
+
+
+
+
+
+
+http://localhost:8090/books/assign/xyz/srini
+
+
+org.hibernate.TypeMismatchException: Provided id of the wrong type for class com.srinivart.books.Books.
+Expected: class java.lang.Long, got class java.lang.String
+
+
+
+
+
+Fix
+-------->
+
+http://localhost:8090/books/assign/xyz/1
+
+
+http://localhost:8090/books/assign/2/1
+
+
+
+
+
+
+
+  @PutMapping("/assign/{bName}/{pName}")
+    Books assignPersonToBook(@PathVariable String bName, @PathVariable String pName){
+
+
+       Books book = booksRepository.findById(bName).get();
+        Person person = personRepository.findById(pName).get();
+
+
+
+
+
+
+
+
+
+
+
+org.springframework.beans.factory.UnsatisfiedDependencyException:
+Error creating bean with name 'booksController': Unsatisfied dependency expressed through field 'booksRepository';
+nested exception is org.springframework.beans.factory.BeanCreationException:
+Error creating bean with name 'booksRepository' defined in com.srinivart.books.BooksRepository
+defined in @EnableJpaRepositories declared on JpaRepositoriesRegistrar.EnableJpaRepositoriesConfiguration:
+Invocation of init method failed; nested exception is org.springframework.data.repository.query.QueryCreationException:
+Could not create query for public abstract com.srinivart.books.Books com.srinivart.books.BooksRepository.findByName(java.lang.String)!
+
+Reason: Failed to create query for method public abstract com.srinivart.books.Books com.srinivart.books.BooksRepository.findByName(java.lang.String)!
+
+No property name found for type Books!
+
+Did you mean 'bname'?;
+
+nested exception is java.lang.IllegalArgumentException:
+
+Failed to create query for method public abstract com.srinivart.books.Books com.srinivart.books.BooksRepository.findByName(java.lang.String)!
+
+No property name found for type Books! Did you mean 'bname'?
+
+
+
+
+
+
+
+
+
+--->
+Solution   ---> earlier primary key was wrong ... string
+--->
+
+public interface PersonRepository extends JpaRepository<Person,Long> {
+
+
+
+
+
+
+
+
+--->
+
+@PutMapping("/assign/{bname}/{name}")
+
+
+
+http://localhost:8090/books/assign/2/1
+
+http://localhost:8090/books/assign/2/2
+
+--------->
+
+{
+    "bname": "xyz",
+    "author": "author2",
+    "readByPersons": [
+        {
+            "name": "srini",
+            "location": "india"
+        }
+    ]
+}
+
+
+
+---->
+
+
+{
+    "bname": "xyz",
+    "author": "author2",
+    "readByPersons": [
+        {
+            "name": "srini",
+            "location": "india"
+        },
+        {
+            "name": "teju",
+            "location": "mumbai"
+        }
+    ]
+}
+
+
+
+--------->
+
+
+
+
+
+
+
+
+
+
+
+Final Tables
+------
+
+
+SELECT * FROM BOOKS;
+ID  	AUTHOR  	BNAME
+1	author1	abc
+2	author2	xyz
+
+
+
+
+SELECT * FROM PERSON;
+ID  	LOCATION  	NAME
+1	india	srini
+2	mumbai	teju
+
+
+
+
+
+SELECT * FROM READ_BY;
+PERSON_ID  	BOOKS_ID
+2	1
+2	2
+
+
+
+
+@PutMapping("/assign/{bname}/{name}")
+
+
+
+http://localhost:8090/books/assign/1/1
+
+
+{
+    "bname": "abc",
+    "author": "author1",
+    "readByPersons": [
+        {
+            "name": "srini",
+            "location": "india"
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+---->
+
+
+
+
+
+http://localhost:8090/books
+
+
+
+----->
+
+[
+    {
+        "bname": "abc",
+        "author": "author1",
+        "readByPersons": [
+            {
+                "name": "srini",
+                "location": "india"
+            }
+        ]
+    },
+    {
+        "bname": "xyz",
+        "author": "author2",
+        "readByPersons": [
+            {
+                "name": "srini",
+                "location": "india"
+            },
+            {
+                "name": "teju",
+                "location": "mumbai"
+            }
+        ]
+    }
+]
+
+
+------>
+
+
+
+

@@ -1,0 +1,124 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Amazon",
+		"_postman_id": "3936635f-2de6-25fb-cf7e-6b92cc093256",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Customers",
+			"request": {
+				"url": "http://localhost:8089/customers",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create customer",
+			"request": {
+				"url": "http://localhost:8089/customers",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"name\": \"srini\",\n\"email\": \"gmail\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "create product",
+			"request": {
+				"url": "http://localhost:8089/products",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"pname\":\"mobile\",\n\t\"price\":10000\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get products",
+			"request": {
+				"url": "http://localhost:8089/products",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "purchase product",
+			"request": {
+				"url": "http://localhost:8089/products/mobile/customer/srini",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "save all customers",
+			"request": {
+				"url": "http://localhost:8089/customers/saveAll",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n{\n\"name\": \"sahi\",\n\"email\": \"gmail\"\n},\n{\n\"name\": \"teju\",\n\"email\": \"gmail\"\n}\n]"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "save all products",
+			"request": {
+				"url": "http://localhost:8089/products/saveAll",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n{\n\"pname\": \"tv\",\n\"price\": \"25000\"\n},\n{\n\"pname\": \"Camera\",\n\"price\": \"35000\"\n}\n]"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
